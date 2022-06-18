@@ -1,0 +1,139 @@
+backend:
+    name: git-gateway
+    branch: main
+publish_mode: editorial_workflow
+media_folder: public/images
+public_folder: images
+site_url: https://template.cjtdevs.com
+
+collections:
+    - label: Pages
+      name: pages
+      files:
+          - label: Home
+            name: home
+            file: content/pages/home.md
+            preview_path: /
+            fields:
+                - {
+                      label: 'Background Image',
+                      name: backgroundImage,
+                      widget: image,
+                      required: false,
+                  }
+                - {
+                      label: 'Background Color',
+                      name: backgroundColor,
+                      widget: color,
+                      required: false,
+                  }
+                - { label: Header, name: header, widget: text, required: false }
+                - { label: Body, name: body, widget: markdown, required: false }
+          - label: About
+            name: about
+            file: content/pages/about.md
+            preview_path: /about
+            fields:
+                - {
+                      label: 'Background Image',
+                      name: backgroundImage,
+                      widget: image,
+                      required: false,
+                  }
+                - {
+                      label: 'Background Color',
+                      name: backgroundColor,
+                      widget: color,
+                      required: false,
+                  }
+                - { label: Header, name: header, widget: text, required: false }
+                - { label: Body, name: body, widget: markdown, required: false }
+          - label: Contact
+            name: contact
+            file: content/pages/contact.md
+            preview_path: /contact
+            fields:
+                - {
+                      label: 'Background Image',
+                      name: backgroundImage,
+                      widget: image,
+                      required: false,
+                  }
+                - {
+                      label: 'Background Color',
+                      name: backgroundColor,
+                      widget: color,
+                      required: false,
+                  }
+                - { label: Header, name: header, widget: text, required: false }
+                - { label: Body, name: body, widget: markdown, required: false }
+    - label: Components
+      name: components
+      files:
+          - label: Header
+            name: header
+            file: content/components/header.md
+            preview_path: /
+            fields:
+                - { label: Header, name: header, widget: text, required: false }
+                - { label: Logo, name: logo, widget: image, required: false }
+                - {
+                      label: 'Background Color',
+                      name: backgroundColor,
+                      widget: color,
+                      required: false,
+                  }
+          - label: Footer
+            name: footer
+            file: content/components/footer.md
+            preview_path: /
+            fields:
+                - {
+                      label: 'Background Color',
+                      name: backgroundColor,
+                      widget: color,
+                      required: false,
+                  }
+                - { label: Legal, name: legal, widget: string, required: false }
+                - label: 'Main Links'
+                  name: mainLinks
+                  widget: object
+                  required: false
+                  fields:
+                      - {
+                            label: Title,
+                            name: title,
+                            widget: string,
+                            required: false,
+                        }
+                      - label: Links
+                        name: links
+                        widget: list
+                        required: false
+                        fields:
+                            - { label: Text, name: text, widget: string }
+                            - { label: Link, name: link, widget: string }
+                - label: 'Social Links'
+                  name: socialLinks
+                  widget: object
+                  required: false
+                  fields:
+                      - {
+                            label: Title,
+                            name: title,
+                            widget: string,
+                            required: false,
+                        }
+                      - label: Links
+                        name: links
+                        widget: list
+                        required: false
+                        fields:
+                            - {
+                                  label: Text,
+                                  name: text,
+                                  widget: string,
+                                  required: false,
+                              }
+                            - { label: Link, name: link, widget: string }
+                            - { label: Image, name: img, widget: image }
