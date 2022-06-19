@@ -23,3 +23,15 @@ a {
 #body-content {
     flex: 1 0 auto;
 }
+
+p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-style: solid;
+    border-radius: 50%;
+    border-width: 2px;
+    padding: 5%;
+}

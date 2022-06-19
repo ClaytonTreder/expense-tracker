@@ -20,10 +20,7 @@ export default function Home() {
     useEffect(() => {
         fetch(`/api/budget/${months.at(new Date().getMonth())}`)
             .then((res) => res.json())
-            .then((data) => {
-                setBudget(data[0])
-                console.log(data)
-            })
+            .then((data) => setBudget(data[0]))
     }, [])
 
     const showExpenses = (title) => () => {
@@ -33,13 +30,57 @@ export default function Home() {
     return (
         <>
             <div>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        paddingLeft: '2%',
+                    }}
+                >
+                    <h4 style={{ margin: '0' }}>
+                        Monthly income:{' '}
+                        {budget?.income
+                            .map((e) =>
+                                e.amount ? e.amount * (e.occurrences ?? 1) : 0
+                            )
+                            .reduce((a, b) => a + b, 0)}
+                    </h4>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        paddingLeft: '2%',
+                        paddingRight: '2%',
+                        justifyContent: 'space-between',
+                        paddingBottom: '2.5%',
+                    }}
+                >
+                    <h4>
+                        Income remaining:{' '}
+                        {budget &&
+                            expenses &&
+                            budget.income
+                                .map((e) =>
+                                    e.amount
+                                        ? e.amount * (e.occurrences ?? 1)
+                                        : 0
+                                )
+                                .reduce((a, b) => a + b, 0) -
+                                expenses
+                                    .map((e) => e.amount ?? 0)
+                                    .reduce((a, b) => a + b, 0) /
+                                    100}
+                    </h4>
+                </div>
+
                 <main>
                     <div
                         style={{
                             display: 'flex',
                             flexDirection: 'row',
-                            paddingLeft: '25%',
-                            paddingRight: '25%',
+                            paddingLeft: '2%',
+                            paddingRight: '2%',
                             justifyContent: 'space-between',
                             paddingBottom: '1.5%',
                         }}
@@ -56,9 +97,10 @@ export default function Home() {
                                     style={{
                                         display: 'flex',
                                         flexDirection: 'row',
-                                        paddingLeft: '25%',
-                                        paddingRight: '25%',
+                                        paddingLeft: '2%',
+                                        paddingRight: '2%',
                                         justifyContent: 'space-between',
+                                        paddingBottom: '1%',
                                     }}
                                 >
                                     <div style={{ width: '33%' }}>
@@ -91,8 +133,8 @@ export default function Home() {
                                                 style={{
                                                     display: 'flex',
                                                     flexDirection: 'row',
-                                                    paddingLeft: '30%',
-                                                    paddingRight: '25%',
+                                                    paddingLeft: '5%',
+                                                    paddingRight: '2%',
                                                     justifyContent:
                                                         'space-between',
                                                 }}
@@ -134,8 +176,9 @@ export default function Home() {
                                                             display: 'flex',
                                                             flexDirection:
                                                                 'row',
-                                                            paddingLeft: '30%',
-                                                            paddingRight: '25%',
+                                                            paddingLeft: '5%',
+                                                            paddingRight: '2%',
+                                                            paddingBottom: '3%',
                                                             justifyContent:
                                                                 'space-between',
                                                         }}
@@ -162,10 +205,6 @@ export default function Home() {
                                                             {new Date(
                                                                 e.addedOn
                                                             ).toLocaleDateString()}
-                                                            -
-                                                            {new Date(
-                                                                e.addedOn
-                                                            ).toLocaleTimeString()}
                                                         </div>
                                                     </div>
                                                 ))}

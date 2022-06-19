@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import months from 'shared/constants/months'
 import strings from 'shared/functions/strings'
 
+
 export default function Expense() {
     const [amount, setAmount] = useState([0, 0, 0])
     const [month, setMonth] = useState()
@@ -71,8 +72,8 @@ export default function Expense() {
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'center',
-                    paddingLeft: '35%',
-                    paddingRight: '35%',
+                    paddingLeft: '25%',
+                    paddingRight: '25%',
                 }}
             >
                 <select value={month} onChange={handleMonthChange}>
@@ -88,8 +89,8 @@ export default function Expense() {
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'center',
-                    paddingLeft: '35%',
-                    paddingRight: '35%',
+                    paddingLeft: '25%',
+                    paddingRight: '25%',
                 }}
             >
                 {categories && (
@@ -110,8 +111,8 @@ export default function Expense() {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'center',
-                            paddingLeft: '35%',
-                            paddingRight: '35%',
+                            paddingLeft: '25%',
+                            paddingRight: '25%',
                         }}
                     >
                         <h3>
@@ -129,8 +130,8 @@ export default function Expense() {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-between',
-                            paddingLeft: '35%',
-                            paddingRight: '35%',
+                            paddingLeft: '25%',
+                            paddingRight: '25%',
                         }}
                     >
                         <div
@@ -174,8 +175,8 @@ export default function Expense() {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'center',
-                            paddingLeft: '35%',
-                            paddingRight: '35%',
+                            paddingLeft: '25%',
+                            paddingRight: '25%',
                         }}
                     >
                         <input
@@ -191,8 +192,8 @@ export default function Expense() {
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'center',
-                    paddingLeft: '35%',
-                    paddingRight: '35%',
+                    paddingLeft: '25%',
+                    paddingRight: '25%',
                 }}
             >
                 <input type="submit" value="Record" onClick={record} />

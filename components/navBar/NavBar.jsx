@@ -10,7 +10,7 @@ export default function NavBar(params) {
     const links = [
         { link: '/', text: 'Current' },
         { link: '/add/expense', text: 'Add Expense' },
-        { link: '/add/budget', text: 'Create Budget' },
+        { link: '/add/budget', text:  'Budgets' },
     ]
     return (
         <>
