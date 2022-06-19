@@ -6,7 +6,6 @@ class MyDocument extends Document {
             <Html>
                 <Head>
                     <meta name="robots" content="index, follow" />
-                    <link rel="shortcut icon" href="/favicon.ico" />
                     <link
                         href="https://fonts.googleapis.com/css2?family=Cabin&display=swap"
                         rel="stylesheet"

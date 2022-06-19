@@ -1,17 +1,12 @@
 import Header from 'components/header'
-import Footer from 'components/footer'
 import NavBar from 'components/navBar'
-import { attributes as content } from 'content/pages/home.md'
 import { useState } from 'react'
 
 export default function Layout({ children }) {
     const [mobileNavOpen, setMobileNavOpen] = useState(false)
     return (
         <>
-            <div
-                style={{ backgroundColor: content.backgroundColor }}
-                id="body-content"
-            >
+            <div>
                 <Header
                     mobileNavOpen={mobileNavOpen}
                     setMobileNavOpen={setMobileNavOpen}
@@ -22,7 +17,6 @@ export default function Layout({ children }) {
                 />
                 {children}
             </div>
-            <Footer />
         </>
     )
 }

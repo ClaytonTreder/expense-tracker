@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import styles from 'styles/components/NavBar.module.css'
-import { attributes as content } from 'content/components/navBar.md'
 
 export default function NavBar(params) {
     const setMobileNavOpen = (val) => {
@@ -8,15 +7,16 @@ export default function NavBar(params) {
             params.setMobileNavOpen(val)
         }
     }
+    const links = [
+        { link: '/', text: 'Current' },
+        { link: '/add/expense', text: 'Add Expense' },
+        { link: '/add/budget', text: 'Create Budget' },
+    ]
     return (
         <>
             <div
                 className={styles.NavBarMobile}
                 style={{
-                    backgroundColor: params.mobileNavOpen
-                        ? content.mobileBackgroundColor
-                        : content.backgroundColor,
-                    color: content.textColor,
                     display: params.mobileNavOpen ? '' : 'none',
                 }}
             >
@@ -24,7 +24,7 @@ export default function NavBar(params) {
                     <div className={styles.X}>
                         <span onClick={setMobileNavOpen(false)}>X</span>
                     </div>
-                    {content.links.map((l, i) => (
+                    {links.map((l, i) => (
                         <Link key={i} href={l.link}>
                             <a
                                 onClick={setMobileNavOpen(false)}
@@ -36,16 +36,8 @@ export default function NavBar(params) {
                     ))}
                 </div>
             </div>
-            <div
-                className={styles.NavBarDesktop}
-                style={{
-                    backgroundColor: params.mobileNavOpen
-                        ? content.mobileBackgroundColor
-                        : content.backgroundColor,
-                    color: content.textColor,
-                }}
-            >
-                {content.links.map((l, i) => (
+            <div className={styles.NavBarDesktop}>
+                {links.map((l, i) => (
                     <Link key={i} href={l.link}>
                         <a
                             onClick={setMobileNavOpen(false)}
