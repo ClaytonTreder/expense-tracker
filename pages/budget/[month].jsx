@@ -35,7 +35,7 @@ export default function Month(props) {
                     ))}
                 </select>
             )}
-            {budget && budget.map((b) => <span>{b}</span>)}
+            {budget && budget.map((b, i) => <span key={i}>{b}</span>)}
         </div>
     )
 }

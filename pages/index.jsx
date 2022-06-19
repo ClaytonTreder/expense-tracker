@@ -127,8 +127,9 @@ export default function Home() {
                                                         e.category ===
                                                             shownExpense
                                                 )
-                                                .map((e) => (
+                                                .map((e, i) => (
                                                     <div
+                                                        key={i}
                                                         style={{
                                                             display: 'flex',
                                                             flexDirection:
