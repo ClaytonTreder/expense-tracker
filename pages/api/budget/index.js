@@ -3,14 +3,29 @@ import Budget from 'models/Budget'
 export default async function handler(req, res) {
     try {
         if (req.method === 'POST') {
-            const result = await Budget.create({
-                ...JSON.parse(req.body),
-                addedOn: new Date(),
+            const restult = await Budget.find({
+                month: JSON.parse(req.body)?.month,
             })
-            res.status(200).json(result)
+            if (restult) {
+                res.status(200).json(
+                    await Budget.findOneAndReplace(
+                        { month: JSON.parse(req.body)?.month },
+                        {
+                            ...JSON.parse(req.body),
+                            addedOn: new Date(),
+                        }
+                    )
+                )
+            } else {
+                res.status(200).json(
+                    await Budget.create({
+                        ...JSON.parse(req.body),
+                        addedOn: new Date(),
+                    })
+                )
+            }
         } else if (req.method === 'GET') {
-            const results = await Budget.find()
-            res.status(200).json(results)
+            res.status(200).json(await Budget.find(req.query))
         } else {
             res.status(400)
         }

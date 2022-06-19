@@ -24,7 +24,7 @@ export default function Category(props) {
                 <input
                     type="text"
                     name="title"
-                    value={category?.title}
+                    value={category?.title ?? ''}
                     onChange={handleChange}
                 />
             </div>
@@ -33,7 +33,7 @@ export default function Category(props) {
                 <input
                     type="number"
                     name="amount"
-                    value={category?.amount}
+                    value={category?.amount ?? ''}
                     onChange={handleChange}
                 />
             </div>
@@ -43,19 +43,13 @@ export default function Category(props) {
                     type="number"
                     name="occurrences"
                     min={1}
-                    value={category?.occurrences}
+                    value={category?.occurrences ?? ''}
                     onChange={handleChange}
                 />
             </div>
             <div>
                 {props.category ? (
-                    <>
-                        <input
-                            type="button"
-                            value="Delete"
-                            onClick={onDelete}
-                        />
-                    </>
+                    <input type="button" value="Delete" onClick={onDelete} />
                 ) : (
                     <input type="button" value="Add" onClick={onAdd} />
                 )}

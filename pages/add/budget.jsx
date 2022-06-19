@@ -9,16 +9,31 @@ export default function Category() {
     const [categories, setCategories] = useState([])
     const [income, setIncome] = useState([])
 
-    const handleMonthChange = (e) => setMonth(e.target.value)
+    const handleMonthChange = (e) => {
+        setCategories([])
+        setIncome([])
+        setMonth(e.target.value)
+    }
 
     useEffect(() => {
         setMonth(
-            month ||
-                months.at(
-                    new Date().getMonth() === 11 ? 0 : new Date().getMonth() + 1
-                )
+            months.at(
+                new Date().getMonth() === 11 ? 0 : new Date().getMonth() + 1
+            )
         )
     }, [setMonth])
+
+    useEffect(() => {
+        fetch('/api/budget/' + month)
+            .then((res) => res.json())
+            .then((data) => {
+                const budget = data[0]
+                if (budget) {
+                    setCategories(budget.categories)
+                    setIncome(budget.income)
+                }
+            })
+    }, [month])
 
     const addCategory = (category) => {
         setCategories((prevState) => [...prevState, { ...category }])
@@ -68,21 +83,43 @@ export default function Category() {
             <div>
                 Clay:
                 <br />
-                <Income addIncome={addIncome} user="Clay" />
+                {income.length > 0 && (
+                    <Income
+                        amount={income?.find((i) => i.user === 'Clay')?.amount}
+                        occurrences={
+                            income?.find((i) => i.user === 'Clay')?.occurrences
+                        }
+                        addIncome={addIncome}
+                        user="Clay"
+                    />
+                )}
             </div>
             <br />
             <div>
                 Courtney:
                 <br />
-                <Income addIncome={addIncome} user="Courtney" />
+                {income.length > 0 && (
+                    <Income
+                        amount={
+                            income?.find((i) => i.user === 'Courtney')?.amount
+                        }
+                        occurrences={
+                            income?.find((i) => i.user === 'Courtney')
+                                ?.occurrences
+                        }
+                        addIncome={addIncome}
+                        user="Courtney"
+                    />
+                )}
             </div>
             <br />
             Categories:
             <br />
             <br />
-            {categories.length > 0
-                ? categories.map((cat) => (
+            {categories?.length > 0
+                ? categories.map((cat, i) => (
                       <CategoryComp
+                          key={i}
                           removeCategory={removeCategory}
                           category={cat}
                       />

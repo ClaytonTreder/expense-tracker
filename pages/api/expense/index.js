@@ -9,7 +9,7 @@ export default async function handler(req, res) {
             })
             res.status(200).json(result)
         } else if (req.method === 'GET') {
-            const results = await Expense.find()
+            const results = await Expense.find({ ...req.query })
             res.status(200).json(results)
         } else {
             res.status(400)

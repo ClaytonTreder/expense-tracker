@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
 export default function Income(props) {
-    const [amount, setAmount] = useState()
+    const [amount, setAmount] = useState(props.amount)
     const [user] = useState(props.user)
-    const [occurrences, setOccurrences] = useState()
+    const [occurrences, setOccurrences] = useState(props.occurrences)
 
     const addIncome = () => {
         props.addIncome({ user, amount, occurrences })
@@ -16,7 +16,7 @@ export default function Income(props) {
                     Amount:
                     <input
                         type="number"
-                        value={amount}
+                        value={amount ?? props.amount}
                         onChange={(e) => setAmount(e.target.value)}
                     />
                 </div>
@@ -25,7 +25,7 @@ export default function Income(props) {
                     <input
                         type="number"
                         min={1}
-                        value={occurrences}
+                        value={occurrences ?? props.occurrences}
                         onChange={(e) => setOccurrences(e.target.value)}
                     />
                 </div>
