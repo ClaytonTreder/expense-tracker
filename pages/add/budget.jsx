@@ -1,7 +1,7 @@
 import months from 'shared/constants/months'
 import strings from 'shared/functions/strings'
 import { useState, useEffect } from 'react'
-import CategoryComp from 'components/Category'
+import CategoryComp from 'components/category'
 import Income from 'components/income'
 
 export default function Category() {
