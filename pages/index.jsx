@@ -7,14 +7,18 @@ export default function Home() {
     const [budget, setBudget] = useState()
     const [shownExpense, setShownExpense] = useState()
 
-    useEffect(() => {
-        fetch(
+    const getExpenses = async () => {
+        await fetch(
             `/api/expense?month=${months.at(
                 new Date().getMonth()
             )}&year=${new Date().getFullYear()}`
         )
             .then((res) => res.json())
             .then((data) => setExpenses(data))
+    }
+
+    useEffect(() => {
+        getExpenses()
     }, [])
 
     useEffect(() => {
@@ -23,8 +27,11 @@ export default function Home() {
             .then((data) => setBudget(data[0]))
     }, [])
 
-    const showExpenses = (title) => () => {
+    const showExpenses = (title) => () =>
         setShownExpense(title === shownExpense ? '' : title)
+
+    const deleteExpense = (id) => async () => {
+        await fetch(`/api/expense/${id}`, { method: 'DELETE' })
     }
 
     return (
@@ -85,9 +92,10 @@ export default function Home() {
                             paddingBottom: '1.5%',
                         }}
                     >
-                        <u style={{ width: '33%' }}>Title</u>
-                        <u style={{ width: '33%' }}>Amount</u>
-                        <u style={{ width: '33%' }}>Spent</u>
+                        <u style={{ width: '31%' }}>Title</u>
+                        <u style={{ width: '27%' }}>Amount</u>
+                        <u style={{ width: '27%' }}>Spent</u>
+                        <u style={{ width: '27%' }}>Remaining</u>
                     </div>
                     {budget &&
                         expenses &&
@@ -103,13 +111,13 @@ export default function Home() {
                                         paddingBottom: '1%',
                                     }}
                                 >
-                                    <div style={{ width: '33%' }}>
+                                    <div style={{ width: '32%' }}>
                                         {cat.title}
                                     </div>
-                                    <div style={{ width: '33%' }}>
-                                        {cat.amount}
+                                    <div style={{ width: '27%' }}>
+                                        {cat.amount * (cat.occurrences ?? 1)}
                                     </div>
-                                    <div style={{ width: '33%' }}>
+                                    <div style={{ width: '27%' }}>
                                         <u onClick={showExpenses(cat.title)}>
                                             {expenses &&
                                                 expenses
@@ -123,6 +131,20 @@ export default function Home() {
                                                         0
                                                     ) / 100}
                                         </u>
+                                    </div>
+                                    <div style={{ width: '27%' }}>
+                                        {cat.amount * (cat.occurrences ?? 1) -
+                                            (expenses &&
+                                                expenses
+                                                    .map((e) =>
+                                                        e.category === cat.title
+                                                            ? e.amount
+                                                            : 0
+                                                    )
+                                                    .reduce(
+                                                        (a, b) => a + b,
+                                                        0
+                                                    ) / 100) ?? 0}
                                     </div>
                                 </div>
                                 {shownExpense &&
@@ -141,25 +163,32 @@ export default function Home() {
                                             >
                                                 <u
                                                     style={{
-                                                        width: '33%',
+                                                        width: '30%',
                                                     }}
                                                 >
                                                     Title
                                                 </u>
                                                 <u
                                                     style={{
-                                                        width: '33%',
+                                                        width: '25%',
                                                     }}
                                                 >
                                                     Amount
                                                 </u>
                                                 <u
                                                     style={{
-                                                        width: '33%',
+                                                        width: '30%',
                                                     }}
                                                 >
                                                     Added On
                                                 </u>
+                                                <div
+                                                    style={{
+                                                        width: '15%',
+                                                    }}
+                                                >
+                                                    &nbsp;
+                                                </div>
                                             </div>
                                             {expenses
                                                 .filter(
@@ -185,26 +214,39 @@ export default function Home() {
                                                     >
                                                         <div
                                                             style={{
-                                                                width: '33%',
+                                                                width: '30%',
                                                             }}
                                                         >
                                                             {e.title}
                                                         </div>
                                                         <div
                                                             style={{
-                                                                width: '33%',
+                                                                width: '25%',
                                                             }}
                                                         >
                                                             {e.amount / 100}
                                                         </div>
                                                         <div
                                                             style={{
-                                                                width: '33%',
+                                                                width: '25%',
                                                             }}
                                                         >
                                                             {new Date(
                                                                 e.addedOn
                                                             ).toLocaleDateString()}
+                                                        </div>
+                                                        <div
+                                                            style={{
+                                                                width: '20%',
+                                                            }}
+                                                        >
+                                                            <input
+                                                                type="button"
+                                                                onClick={deleteExpense(
+                                                                    e._id
+                                                                )}
+                                                                value="Delete"
+                                                            />
                                                         </div>
                                                     </div>
                                                 ))}

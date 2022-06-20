@@ -63,6 +63,8 @@ export default function Expense() {
                 year: new Date().getFullYear(),
             }),
         })
+        setAmount([0,0,0])
+        setTitle("")
     }
 
     return (
