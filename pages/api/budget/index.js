@@ -3,10 +3,10 @@ import Budget from 'models/Budget'
 export default async function handler(req, res) {
     try {
         if (req.method === 'POST') {
-            const restult = await Budget.find({
+            const result = await Budget.find({
                 month: JSON.parse(req.body)?.month,
             })
-            if (restult) {
+            if (result.length > 0) {
                 res.status(200).json(
                     await Budget.findOneAndReplace(
                         { month: JSON.parse(req.body)?.month },

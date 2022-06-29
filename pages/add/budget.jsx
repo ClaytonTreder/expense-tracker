@@ -83,7 +83,7 @@ export default function Category() {
             <div>
                 Clay:
                 <br />
-                {income.length > 0 && (
+                {income && (
                     <Income
                         amount={income?.find((i) => i.user === 'Clay')?.amount}
                         occurrences={
@@ -98,7 +98,7 @@ export default function Category() {
             <div>
                 Courtney:
                 <br />
-                {income.length > 0 && (
+                {income && (
                     <Income
                         amount={
                             income?.find((i) => i.user === 'Courtney')?.amount

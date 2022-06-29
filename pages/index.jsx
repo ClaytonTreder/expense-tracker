@@ -1,41 +1,70 @@
 import { useState } from 'react'
 import { useEffect } from 'react'
 import months from 'shared/constants/months'
+import strings from 'shared/functions/strings'
 
 export default function Home() {
     const [expenses, setExpenses] = useState()
     const [budget, setBudget] = useState()
     const [shownExpense, setShownExpense] = useState()
+    const [month, setMonth] = useState()
+
+    useEffect(() => {
+        setMonth(months.at(new Date().getMonth()))
+    }, [])
 
     const getExpenses = async () => {
         await fetch(
-            `/api/expense?month=${months.at(
-                new Date().getMonth()
-            )}&year=${new Date().getFullYear()}`
+            `/api/expense?month=${month}&year=${new Date().getFullYear()}`
         )
             .then((res) => res.json())
             .then((data) => setExpenses(data))
     }
 
-    useEffect(() => {
-        getExpenses()
-    }, [])
-
-    useEffect(() => {
-        fetch(`/api/budget/${months.at(new Date().getMonth())}`)
+    const getBudget = async () => {
+        await fetch(`/api/budget/${month}`)
             .then((res) => res.json())
             .then((data) => setBudget(data[0]))
-    }, [])
+    }
+
+    useEffect(() => {
+        getBudget()
+        getExpenses()
+    }, [month])
 
     const showExpenses = (title) => () =>
         setShownExpense(title === shownExpense ? '' : title)
 
     const deleteExpense = (id) => async () => {
         await fetch(`/api/expense/${id}`, { method: 'DELETE' })
+        getExpenses()
     }
 
+    const handleMonthChange = (e) => {
+        setMonth(e.target.value)
+        console.log(
+            budget?.categories.map((c) => {
+                return c.amount
+            })
+        )
+    }
     return (
         <>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                }}
+            >
+                <select value={month} onChange={handleMonthChange}>
+                    {months.map((m, i) => (
+                        <option value={m} key={i}>
+                            {strings.capitalizeFirstLetter(m)}
+                        </option>
+                    ))}
+                </select>
+            </div>
             <div>
                 <div
                     style={{
@@ -58,12 +87,9 @@ export default function Home() {
                         display: 'flex',
                         flexDirection: 'row',
                         paddingLeft: '2%',
-                        paddingRight: '2%',
-                        justifyContent: 'space-between',
-                        paddingBottom: '2.5%',
                     }}
                 >
-                    <h4>
+                    <h4 style={{ margin: '0' }}>
                         Income remaining:{' '}
                         {budget &&
                             expenses &&
@@ -76,6 +102,64 @@ export default function Home() {
                                 .reduce((a, b) => a + b, 0) -
                                 expenses
                                     .map((e) => e.amount ?? 0)
+                                    .reduce((a, b) => a + b, 0) /
+                                    100}
+                    </h4>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        paddingLeft: '2%',
+                    }}
+                >
+                    <h4 style={{ margin: '0' }}>
+                        Total Budgeted:{' '}
+                        {budget &&
+                            budget.categories
+                                .map((e) =>
+                                    e.amount
+                                        ? e.amount * (e.occurrences ?? 1)
+                                        : 0
+                                )
+                                .reduce((a, b) => a + b, 0)}
+                    </h4>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        paddingLeft: '2%',
+                    }}
+                >
+                    <h4 style={{ margin: '0' }}>
+                        Total Spent:{' '}
+                        {expenses &&
+                            expenses
+                                .map((e) => e.amount)
+                                .reduce((a, b) => a + b, 0) / 100}
+                    </h4>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        paddingLeft: '2%',
+                    }}
+                >
+                    <h4 style={{ marginTop: '0' }}>
+                        Over / Under:{' '}
+                        {budget &&
+                            expenses &&
+                            budget.categories
+                                .map((e) =>
+                                    e.amount
+                                        ? e.amount * (e.occurrences ?? 1)
+                                        : 0
+                                )
+                                .reduce((a, b) => a + b, 0) -
+                                expenses
+                                    .map((e) => e.amount)
                                     .reduce((a, b) => a + b, 0) /
                                     100}
                     </h4>

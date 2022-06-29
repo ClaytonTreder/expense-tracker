@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import months from 'shared/constants/months'
 import strings from 'shared/functions/strings'
 
-
 export default function Expense() {
     const [amount, setAmount] = useState([0, 0, 0])
     const [month, setMonth] = useState()
@@ -63,8 +62,8 @@ export default function Expense() {
                 year: new Date().getFullYear(),
             }),
         })
-        setAmount([0,0,0])
-        setTitle("")
+        setAmount([0, 0, 0])
+        setTitle('')
     }
 
     return (
@@ -189,17 +188,19 @@ export default function Expense() {
                     </div>
                 </>
             )}
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    paddingLeft: '25%',
-                    paddingRight: '25%',
-                }}
-            >
-                <input type="submit" value="Record" onClick={record} />
-            </div>
+            {category && (
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        paddingLeft: '25%',
+                        paddingRight: '25%',
+                    }}
+                >
+                    <input type="submit" value="Record" onClick={record} />
+                </div>
+            )}
         </div>
     )
 }
