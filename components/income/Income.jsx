@@ -1,38 +1,76 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 export default function Income(props) {
-    const [amount, setAmount] = useState(props.amount)
-    const [user] = useState(props.user)
-    const [occurrences, setOccurrences] = useState(props.occurrences)
+  const [state, setState] = useState({
+    _id: props._id ?? '',
+    amount: props.amount ?? '',
+    user: props.user ?? '',
+    occurrences: props.occurrences ?? '',
+  });
 
-    const addIncome = () => {
-        props.addIncome({ user, amount, occurrences })
-    }
+  const handleChange = (e) => {
+    setState((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-    return (
-        <>
-            <div style={{ flexDirection: 'row', display: 'flex' }}>
-                <div>
-                    Amount:
-                    <input
-                        type="number"
-                        value={amount ?? props.amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                    />
-                </div>
-                <div>
-                    Occurrences:
-                    <input
-                        type="number"
-                        min={1}
-                        value={occurrences ?? props.occurrences}
-                        onChange={(e) => setOccurrences(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <input type="button" value="Save" onClick={addIncome} />
-                </div>
-            </div>
-        </>
-    )
+  const handleAdd = () => {
+    props.addIncome({
+      _id: state.user ?? `${state.user}_new`,
+      user: state.user,
+      amount: state.amount,
+      occurrences: state.occurrences,
+    });
+    setState({
+      _id: '',
+      amount: '',
+      user: '',
+      occurrences: '',
+    });
+  };
+
+  const handleDelete = () => props.removeIncome(state._id);
+
+  return (
+    <>
+      <div style={{ flexDirection: 'row', display: 'flex' }}>
+        <div>
+          User:
+          <input
+            type="text"
+            value={state.user}
+            name="user"
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          Amount:
+          <input
+            type="number"
+            value={state.amount}
+            name="amount"
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          Occurrences:
+          <input
+            type="number"
+            min={1}
+            value={state.occurrences}
+            name="occurrences"
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          {props.user ? (
+            <input type="button" value="Delete" onClick={handleDelete} />
+          ) : (
+            <input type="button" value="Save" onClick={handleAdd} />
+          )}
+        </div>
+      </div>
+    </>
+  );
 }
