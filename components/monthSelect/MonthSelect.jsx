@@ -3,7 +3,7 @@ import { useState } from 'react';
 import months from 'shared/constants/months';
 import strings from 'shared/functions/strings';
 
-export default function MonthSelect(props) {
+export default function MonthSelect({ monthOffset, onChange }) {
   const [state, setState] = useState({
     month: null,
   });
@@ -11,12 +11,12 @@ export default function MonthSelect(props) {
   useEffect(() => {
     setState((prevState) => ({
       ...prevState,
-      month: months.at(new Date().getMonth() + (props.monthOffset ?? 0)),
+      month: months.at(new Date().getMonth() + (monthOffset ?? 0)),
     }));
   }, []);
 
   useEffect(() => {
-    props.handleChange(state.month);
+    onChange(state.month);
   }, [state.month]);
 
   const handleChange = (e) => {

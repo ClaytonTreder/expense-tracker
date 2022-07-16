@@ -1,2 +1,7 @@
 [functions]
   directory = "functions/"
+
+[[headers]]
+  for = "/components"
+  [headers.values]
+    Basic-Auth = "j3t:20210920"

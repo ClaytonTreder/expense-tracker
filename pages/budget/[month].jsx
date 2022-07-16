@@ -41,9 +41,10 @@ export default function Month(props) {
 }
 
 export function getStaticProps({ params }) {
+    console.log("Static Props", params)
     return { props: { month: params.month } }
 }
 
-export function getStaticPaths() {
+export function getStaticPaths(params) {
     return { paths: [], fallback: true }
 }

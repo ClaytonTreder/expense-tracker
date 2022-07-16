@@ -117,7 +117,7 @@ export default function Category() {
     <form onSubmit={onSubmit}>
       <div>
         Months:
-        <MonthSelect monthsOffset={1} handleChange={handleMonthChange} />
+        <MonthSelect monthsOffset={1} onChange={handleMonthChange} />
       </div>
       <br />
       Income:
