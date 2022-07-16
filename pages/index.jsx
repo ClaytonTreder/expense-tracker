@@ -50,7 +50,41 @@ export default function Home() {
   };
 
   return (
-    <>
+    <div style={{ paddingLeft: '2%', paddingRight: '2%' }}>
+      <h3>
+        Monthly income:{' '}
+        {state.budget?.income
+          ?.map((b) => b.amount * (b.occurrences ?? 1))
+          .reduce((a, b) => a + b, 0)
+          ?.toFixed(2)}
+      </h3>
+      <h3>
+        Total budgeted:{' '}
+        {state.budget?.categories
+          ?.map((b) => b.amount * (b.occurrences ?? 1))
+          .reduce((a, b) => a + b, 0)
+          ?.toFixed(2)}
+      </h3>
+      <h3>
+        Total spent:{' '}
+        {(
+          state.expenses
+            ?.map((b) => b.amount * (b.occurrences ?? 1))
+            .reduce((a, b) => a + b, 0) / 100
+        )?.toFixed(2)}
+      </h3>
+      <h3>
+        Over/Under:{' '}
+        {(
+          state.budget?.income
+            ?.map((b) => b.amount * (b.occurrences ?? 1))
+            .reduce((a, b) => a + b, 0) -
+          state.expenses
+            ?.map((b) => b.amount * (b.occurrences ?? 1))
+            .reduce((a, b) => a + b, 0) /
+            100
+        )?.toFixed(2)}
+      </h3>
       <div className="row center">
         <MonthSelect monthOffset={0} onChange={handleMonthChange} />
       </div>
@@ -95,6 +129,6 @@ export default function Home() {
             ))}
         </main>
       </div>
-    </>
+    </div>
   );
 }
